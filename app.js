@@ -202,7 +202,7 @@ const bcrypt= require("bcrypt");
 saltRounds=10;
 //patient
 const patientSchema=new mongoose.Schema({
-    username:String,
+    name:String,
     email:mongoose.SchemaTypes.Email,
     password:String
 });
@@ -216,7 +216,7 @@ const Patient=new mongoose.model('Patient',patientSchema)
 // patient.save();
 
 const therapistSchema=new mongoose.Schema({
-    username:String,
+    name:String,
     email:mongoose.SchemaTypes.Email,
     password:String
 });
@@ -247,45 +247,41 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/',function(req,res){
-    res.render("home");
+    res.render("index");
 });
 
-app.get('/login_patient',function(req,res){
-    res.render("login_patient");
+app.get('/lrp',function(req,res){
+    res.render("lrp");
 });
-app.get('/register_patient',function(req,res){
-    res.render("register_patient");
-});
-
-app.get('/login_therapist',function(req,res){
-    res.render("login_therapist");
+app.get('/lrt',function(req,res){
+    res.render("lrt");
 });
 
 app.post('/register_patient',function(req,res){
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
         const patient=new Patient({
-            username:req.body.username,
-            Email_id=req.body.,
+            name:req.body.name,
+            email:req.body.email,
             password:hash
         });
         patient.save(function(err){
             if(err){
                 console.log(err);
             }
-            // else{
-            //     res.render("secrets");
-            // }
+            else{
+                res.render("secrets");
+            }
         });
     });
 
-   
 });
 app.post('/register_therapist',function(req,res){
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
         const therapist=new Therapist({
-            username:req.body.username,
+            name:req.body.name,
+            email:req.body.email,
             password:hash
         });
         therapist.save(function(err){
@@ -301,10 +297,10 @@ app.post('/register_therapist',function(req,res){
    
 });
 
-app.post("/login",function(req,res){
-    const username= req.body.username;
+app.post("/login_patient",function(req,res){
+    const email= req.body.email;
     const password= req.body.password;
-    User.findOne({email:username},function(err,founduser){
+    Patient.findOne({email:email},function(err,founduser){
         if(err)
         {
             console.log(err);
@@ -315,7 +311,28 @@ app.post("/login",function(req,res){
                 bcrypt.compare(password,founduser.password, function(err, result) {
                     if(result===true)
                     {
-                        res.render("secrets");
+                        res.render("patient_dashboard");
+                    }
+                });
+            }
+        }
+    });
+});
+app.post("/login_therapist",function(req,res){
+    const email= req.body.email;
+    const password= req.body.password;
+    Therapist.findOne({email:email},function(err,founduser){
+        if(err)
+        {
+            console.log(err);
+        }
+        else{
+            if(founduser)
+            {
+                bcrypt.compare(password,founduser.password, function(err, result) {
+                    if(result===true)
+                    {
+                        res.render("therapist_dashboard");
                     }
                 });
             }
@@ -326,3 +343,15 @@ app.post("/login",function(req,res){
 app.listen(3000,function(){
     console.log("server started at port 3000");
 });
+
+
+
+// login
+// <input type="email" placeholder="Email" name="email" />
+//           <input type="password" placeholder="Password" name="password" />
+
+
+// signup
+//           <input type="text" placeholder="Name" name="name"/>
+//           <input type="email" placeholder="Email" name="email"  />
+//           <input type="password" placeholder="Password" name="password" />

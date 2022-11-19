@@ -254,19 +254,23 @@ app.get('/login_patient',function(req,res){
     res.render("login_patient");
 });
 app.get('/register_patient',function(req,res){
-    res.render("register_patient");
+    res.render("login_patient");
 });
 
 app.get('/login_therapist',function(req,res){
     res.render("login_therapist");
 });
 
+app.get('/register_therapist',function(req,res){
+    res.render("login_therapist");
+});
+
+
 app.post('/register_patient',function(req,res){
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
         const patient=new Patient({
             username:req.body.username,
-            Email_id=req.body.,
             password:hash
         });
         patient.save(function(err){

@@ -253,43 +253,25 @@ app.get('/',function(req,res){
 app.get('/lrp',function(req,res){
     res.render("lrp");
 });
-<<<<<<< HEAD:temp/app.js
-app.get('/register_patient',function(req,res){
-    res.render("login_patient");
-});
-
-app.get('/login_therapist',function(req,res){
-    res.render("login_therapist");
-=======
 app.get('/lrt',function(req,res){
     res.render("lrt");
->>>>>>> 20f331f62c8f1449f847e4ee488b67af1eacddda:app.js
 });
-
-app.get('/register_therapist',function(req,res){
-    res.render("login_therapist");
-});
-
 
 app.post('/register_patient',function(req,res){
 
     bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
         const patient=new Patient({
-<<<<<<< HEAD:temp/app.js
-            username:req.body.username,
-=======
             name:req.body.name,
             email:req.body.email,
->>>>>>> 20f331f62c8f1449f847e4ee488b67af1eacddda:app.js
             password:hash
         });
         patient.save(function(err){
             if(err){
                 console.log(err);
             }
-            else{
-                res.render("secrets");
-            }
+            // else{
+            //     res.render("secrets");
+            // }
         });
     });
 
@@ -363,13 +345,3 @@ app.listen(3000,function(){
 });
 
 
-
-// login
-// <input type="email" placeholder="Email" name="email" />
-//           <input type="password" placeholder="Password" name="password" />
-
-
-// signup
-//           <input type="text" placeholder="Name" name="name"/>
-//           <input type="email" placeholder="Email" name="email"  />
-//           <input type="password" placeholder="Password" name="password" />

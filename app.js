@@ -269,9 +269,15 @@ app.post('/register_patient',function(req,res){
             if(err){
                 console.log(err);
             }
+<<<<<<< HEAD
             // else{
             //     res.render("secrets");
             // }
+=======
+            else{
+                res.render("patient_dashboard");
+            }
+>>>>>>> 1330fbd445592649d1cfb4f2dc6d7eb8312a6cff
         });
     });
 
@@ -288,9 +294,9 @@ app.post('/register_therapist',function(req,res){
             if(err){
                 console.log(err);
             }
-            // else{
-            //     res.render("secrets");
-            // }
+            else{
+                res.render("therapist_dashboard");
+            }
         });
     });
 
